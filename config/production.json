@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://vengat:vengat123@devconnector-hgydi.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
+}
