@@ -7,13 +7,12 @@ const {
 const auth = require('../../middleware/auth');
 
 const Post = require('../../models/Post');
-const User = require('../../models/User');
 const Profile = require('../../models/Profile');
+const User = require('../../models/User');
 
-// @route   POST api/posts
-// @desc    Create a Post
-// @access  Private
-
+// @route    POST api/posts
+// @desc     Create a post
+// @access   Private
 router.post(
     '/',
     [
@@ -52,9 +51,9 @@ router.post(
     }
 );
 
-// @route   GET api/posts
-// @desc    Get all posts
-// @access  Private
+// @route    GET api/posts
+// @desc     Get all posts
+// @access   Private
 router.get('/', auth, async (req, res) => {
     try {
         const posts = await Post.find().sort({
@@ -67,17 +66,19 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// @route   GET api/posts/:id
-// @desc    Get post by ID
-// @access  Private
+// @route    GET api/posts/:id
+// @desc     Get post by ID
+// @access   Private
 router.get('/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
+
         if (!post) {
             return res.status(404).json({
                 msg: 'Post not found'
             });
         }
+
         res.json(post);
     } catch (err) {
         console.error(err.message);
@@ -90,9 +91,9 @@ router.get('/:id', auth, async (req, res) => {
     }
 });
 
-// @route   DELETE api/posts/:id
-// @desc    Delete a posts
-// @access  Private
+// @route    DELETE api/posts/:id
+// @desc     Delete a post
+// @access   Private
 router.delete('/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
@@ -109,6 +110,7 @@ router.delete('/:id', auth, async (req, res) => {
                 msg: 'User not authorized'
             });
         }
+
         await post.remove();
 
         res.json({
@@ -116,20 +118,18 @@ router.delete('/:id', auth, async (req, res) => {
         });
     } catch (err) {
         console.error(err.message);
-
         if (err.kind === 'ObjectId') {
             return res.status(404).json({
                 msg: 'Post not found'
             });
         }
-
         res.status(500).send('Server Error');
     }
 });
 
-// @route   PUT api/posts/like/:id
-// @desc    Like a post
-// @access  Private
+// @route    PUT api/posts/like/:id
+// @desc     Like a post
+// @access   Private
 router.put('/like/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
@@ -156,9 +156,9 @@ router.put('/like/:id', auth, async (req, res) => {
     }
 });
 
-// @route   PUT api/posts/unlike/:id
-// @desc    Unlike a post
-// @access  Private
+// @route    PUT api/posts/unlike/:id
+// @desc     Like a post
+// @access   Private
 router.put('/unlike/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
@@ -189,10 +189,9 @@ router.put('/unlike/:id', auth, async (req, res) => {
     }
 });
 
-// @route   POST api/posts/comment/:id
-// @desc    Comment on a Post
-// @access  Private
-
+// @route    POST api/posts/comment/:id
+// @desc     Comment on a post
+// @access   Private
 router.post(
     '/comment/:id',
     [
@@ -234,24 +233,26 @@ router.post(
     }
 );
 
-// @route   DELETE api/posts/comment/:id/:comment_id
-// @desc    Delete a Comment
-// @access  Private
+// @route    DELETE api/posts/comment/:id/:comment_id
+// @desc     Delete comment
+// @access   Private
 router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
 
-        //Pull out comment
-        const comment = post.comments.find(comment => comment.id === req.params.comment_id);
+        // Pull out comment
+        const comment = post.comments.find(
+            comment => comment.id === req.params.comment_id
+        );
 
-        //Make sure comment exists
+        // Make sure comment exists
         if (!comment) {
             return res.status(404).json({
-                msg: 'comment does not exist'
+                msg: 'Comment does not exist'
             });
         }
 
-        //Check user
+        // Check user
         if (comment.user.toString() !== req.user.id) {
             return res.status(401).json({
                 msg: 'User not authorized'
@@ -268,7 +269,6 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
         await post.save();
 
         res.json(post.comments);
-
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
