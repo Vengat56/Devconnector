@@ -26,6 +26,7 @@ const Profile = ({
         <Spinner />
       ) : (
         <Fragment>
+          <div class='inner_page_top'>
           <Link to='/profiles' className='btn btn-light'>
             Back To Profiles
           </Link>
@@ -70,6 +71,7 @@ const Profile = ({
                 <h4>No education credentials</h4>
               )}
             </div>
+          </div>
           </div>
         </Fragment>
       )}

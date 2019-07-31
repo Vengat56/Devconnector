@@ -16,6 +16,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
+          <div class='inner_page_top'>
           <h1 className='large text-primary'>Developers</h1>
           <p className='lead'>
             <i className='fab fa-connectdevelop' /> Browse and connect with
@@ -29,6 +30,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
             ) : (
               <h4>No profiles found...</h4>
             )}
+          </div>
           </div>
         </Fragment>
       )}

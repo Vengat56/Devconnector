@@ -24,6 +24,7 @@ const AddExperience = ({ addExperience, history }) => {
 
   return (
     <Fragment>
+      <div class='inner_page_top'>
       <h1 className='large text-primary'>Add An Experience</h1>
       <p className='lead'>
         <i className='fas fa-code-branch' /> Add any developer/programming positions
@@ -115,6 +116,7 @@ const AddExperience = ({ addExperience, history }) => {
           Go Back
         </Link>
       </form>
+      </div>
     </Fragment>
   );
 };
